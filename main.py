@@ -39,9 +39,12 @@ def clear_output_dir(path: str) -> None:
 
 
 def main() -> int:
-    out_dir = os.environ.get("MAKEFUN_OUTPUT_DIR", "/output")
+    out_dir = os.environ.get("MAKEFUN_OUTPUT_DIR", "/output") or "/output"
     clear_output_dir(out_dir)
     text = POEM.strip() + "\n"
+    if not text.strip():
+        print("entry is only whitespace, failing the gate", file=sys.stderr)
+        return 1
     if not (1 <= len(text) <= 280):
         print(f"entry is {len(text)} characters, outside the 1-280 gate", file=sys.stderr)
         return 1
